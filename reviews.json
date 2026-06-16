@@ -1,0 +1,23 @@
+[
+  {
+    "reviewId": "550e8400-e29b-41d4-a716-446655440000",
+    "productId": "SMARTPHONE_X",
+    "rating": 5,
+    "reviewText": "The battery life on this phone is absolutely incredible. I easily get two full days of heavy usage. The screen is vibrant, and the camera captures stunning details in low light. Highly recommend it to anyone.",
+    "reviewDate": "2026-05-12"
+  },
+  {
+    "reviewId": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "productId": "SMARTPHONE_X",
+    "rating": 3,
+    "reviewText": "It has a great design and feels premium, but the performance is sometimes sluggish when playing graphic-intensive games. Also, the charging speed is quite slow compared to other modern flagship devices on the market.",
+    "reviewDate": "2026-06-02"
+  },
+  {
+    "reviewId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "productId": "SMARTPHONE_X",
+    "rating": 2,
+    "reviewText": "I am disappointed with this purchase. The speaker quality is subpar, sounding tinny and quiet. Furthermore, the face recognition feature rarely works in dim lighting, forcing me to type my password constantly.",
+    "reviewDate": "2026-06-14"
+  }
+]

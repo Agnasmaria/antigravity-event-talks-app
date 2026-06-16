@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigQuery Release Notes Explorer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/google-cloud.png">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Dashboard Navigation / Filters -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="https://img.icons8.com/fluency/48/000000/google-cloud.png" alt="Google Cloud Logo" class="brand-logo">
+                <div class="brand-text">
+                    <h1>BigQuery</h1>
+                    <span>Release Hub</span>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="search-input" placeholder="Search release notes...">
+            </div>
+            
+            <div class="filter-section">
+                <h3>Filter by Category</h3>
+                <div class="category-filters">
+                    <button class="filter-pill active" data-category="all">
+                        <span class="pill-dot all"></span> All Updates
+                    </button>
+                    <button class="filter-pill" data-category="feature">
+                        <span class="pill-dot feature"></span> Features
+                    </button>
+                    <button class="filter-pill" data-category="issue">
+                        <span class="pill-dot issue"></span> Issues
+                    </button>
+                    <button class="filter-pill" data-category="breaking">
+                        <span class="pill-dot breaking"></span> Breaking
+                    </button>
+                    <button class="filter-pill" data-category="announcement">
+                        <span class="pill-dot announcement"></span> Announcements
+                    </button>
+                    <button class="filter-pill" data-category="change">
+                        <span class="pill-dot change"></span> Changes
+                    </button>
+                </div>
+            </div>
+            
+            <div class="feed-status">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span id="cache-status-text">Checking feed...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Feed Window -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="header-titles">
+                    <h2>Latest Release Notes</h2>
+                    <p>Stay up to date with Google BigQuery product updates and feature enhancements.</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="refresh-btn" title="Refresh Release Notes">
+                        <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.228 9H18.02" />
+                        </svg>
+                        <span>Refresh Feed</span>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Notes Grid Container -->
+            <div class="notes-grid" id="notes-grid">
+                <!-- Skeleton Loader State -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="empty-state">
+                <div class="empty-icon">📂</div>
+                <h3>No updates found</h3>
+                <p>Try refining your search terms or checking a different category.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Twitter Composer Modal -->
+    <div class="modal-overlay hidden" id="tweet-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="x-logo-icon">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                    </svg>
+                    <h3>Draft Tweet</h3>
+                </div>
+                <button class="close-modal-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Live Tweet Editor Box -->
+                <div class="tweet-composer">
+                    <div class="avatar-col">
+                        <img src="https://img.icons8.com/fluency/48/000000/google-cloud.png" alt="User Avatar" class="composer-avatar">
+                    </div>
+                    <div class="composer-col">
+                        <textarea id="tweet-textarea" rows="4" placeholder="What's happening?"></textarea>
+                        
+                        <!-- Rich preview card -->
+                        <div class="tweet-preview-card">
+                            <div class="preview-tag" id="preview-card-category">Feature</div>
+                            <div class="preview-content-box">
+                                <h4 id="preview-card-title">BigQuery Update</h4>
+                                <p id="preview-card-text">Loading snippet...</p>
+                                <span class="preview-card-domain">cloud.google.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="character-counter">
+                    <span id="char-count">0</span>/280
+                </div>
+                <button id="post-tweet-btn">Post to X</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification -->
+    <div id="toast" class="toast hidden">Feed refreshed successfully!</div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

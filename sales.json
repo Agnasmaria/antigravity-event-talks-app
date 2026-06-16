@@ -1,0 +1,44 @@
+[
+  {
+    "date": "2026-06-10",
+    "revenue": 12450.50,
+    "unitsSold": 250,
+    "region": "North"
+  },
+  {
+    "date": "2026-06-11",
+    "revenue": 15200.75,
+    "unitsSold": 310,
+    "region": "West"
+  },
+  {
+    "date": "2026-06-12",
+    "revenue": 8900.20,
+    "unitsSold": 180,
+    "region": "South"
+  },
+  {
+    "date": "2026-06-13",
+    "revenue": 18750.00,
+    "unitsSold": 420,
+    "region": "East"
+  },
+  {
+    "date": "2026-06-14",
+    "revenue": 6120.40,
+    "unitsSold": 115,
+    "region": "North"
+  },
+  {
+    "date": "2026-06-15",
+    "revenue": 11350.80,
+    "unitsSold": 225,
+    "region": "West"
+  },
+  {
+    "date": "2026-06-16",
+    "revenue": 14890.35,
+    "unitsSold": 298,
+    "region": "South"
+  }
+]
